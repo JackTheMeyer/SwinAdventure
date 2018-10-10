@@ -8,7 +8,7 @@ namespace SwinAdventure
         Player Jack = new Player("Jack", "The Avatar of Jack");
         Bag satchel = new Bag(new string[] { "satchel", "bag" }, "satchel", "good for holding things");
         LookCommand cmd = new LookCommand(new string[] { "Look", "at", "Me" });
-        Item Gem = new Item(new string[] { "Gem", "Jewel" }, "Gem", "Bright red Gem");
+        Item Gem = new Item(new string[] { "gem", "jewel" }, "gem", "Bright red Gem");
         LookCommand gemcmd = new LookCommand(new string[] { "Look", "at", "Gem" });
         LookCommand gemInMe = new LookCommand(new string[] { "Look", "at", "gem", "in", "me" });
         LookCommand gemInBag = new LookCommand(new string[] { "Look", "at", "gem", "in", "satchel" });
@@ -40,7 +40,7 @@ namespace SwinAdventure
             {
                 Jack.Inventory.Take(Gem.Name);
             }
-            Assert.IsTrue(gemcmd.Execute(Jack, gemcmd.Cmd) == "I Can't Find The Gem");
+            Assert.IsTrue(gemcmd.Execute(Jack, gemcmd.Cmd) == "I Can't Find The gem");
         }
 
         [TestCase]

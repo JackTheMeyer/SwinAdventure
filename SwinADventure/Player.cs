@@ -10,6 +10,7 @@ namespace SwinAdventure
     public class Player : GameObject, IHaveInventory
     {
         private Inventory _inventory = new Inventory();
+        private Location _location = null;
 
         public Player(string name, string desc) :
             base(new string[] { "me", "inventory"}, name, desc)
@@ -34,12 +35,28 @@ namespace SwinAdventure
             {
                 return _inventory.Fetch(id);
             }
-            else
+            else if (_location != null && _location.Name == id)
             {
-                return null;
+                    return _location;
             }
+            else if (_location != null && _location.Area.HasItem(id))
+            {
+                return _location.Area.Fetch(id);
+            }
+            return null;
         }
 
+        public Location Location
+        {
+            get
+            {
+                return _location;
+            }
+            set
+            {
+                _location = value;
+            }
+        }
         public override string FullDescription
         {
             get

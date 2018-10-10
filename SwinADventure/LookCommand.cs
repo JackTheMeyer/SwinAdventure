@@ -21,8 +21,11 @@ namespace SwinAdventure
             //look at pen
             //look at bag
 
-
-            if (text.Length != 3 & text.Length != 5)
+            if (text.Length == 1 && text[0].ToLower() == "look")
+            {
+                return p.Location.FullDescription;
+            }
+            else if (text.Length != 3 & text.Length != 5)
             {
                 return "I Don't Know How To Look Like That";
             }
@@ -41,16 +44,16 @@ namespace SwinAdventure
                     return "What Do You Want To Look In?";
                 }
 
-                IHaveInventory cont = FetchContainer(p, text[4]);
+                IHaveInventory cont = FetchContainer(p, text[4].ToLower());
                 if (cont == null)
                 {
-                    return "I Can't Find The " + text[4];
+                    return "I Can't Find The " + text[4].ToLower();
                 }
 
-                string result = LookAtIn(text[2], cont);
+                string result = LookAtIn(text[2].ToLower(), cont);
                 if (result == null)
                 {
-                    return "I Can't Find The " + text[2];
+                    return "I Can't Find The " + text[2].ToLower();
                 }
                 else
                 {
@@ -60,10 +63,10 @@ namespace SwinAdventure
             }
             else if (text.Length == 3)
             {
-                GameObject newp = p.Locate(text[2]);
+                GameObject newp = p.Locate(text[2].ToLower());
                 if (newp == null)
                 {
-                    return "I Can't Find The " + text[2];
+                    return "I Can't Find The " + text[2].ToLower();
                 }
                 else
                 {

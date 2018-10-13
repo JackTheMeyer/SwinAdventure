@@ -7,8 +7,19 @@ namespace SwinAdventure
         static void Main(string[] args)
         {
             string command = "placeholder";
+            //create the Command Processor
+            CommandProcessor Processor = new CommandProcessor();
+
             // Create Locations
             Location Camp = new Location(new string[] { "Home", "Camp", "Base" }, "Camp", "Where all my stuff is");
+            Location Forrest = new Location(new string[] { "Forrest", "Woods", "Thicket" }, "Forrest", "A Spooky Forrest");
+
+            // Create Pathing for Locations
+            Path CampToForrest = new Path(new string[] { "north" }, "south", "a barely visible track to the north, leading off into the night", Camp, Forrest);
+            Path ForrestToCamp = new Path(new string[] { "south" }, "south", "a barely visible track to the south, leading bac into the darkness...", Forrest, Camp);
+            // Add Paths to Locations
+            Camp.AddPath(CampToForrest);
+            Forrest.AddPath(ForrestToCamp);
 
             // Create Player
             Console.WriteLine("Please Enter your Name: ");
@@ -16,18 +27,22 @@ namespace SwinAdventure
             Console.WriteLine("\nPlease Describe yourself: ");
             string description = Console.ReadLine();
             Player P1 = new Player(name, description);
+            Console.WriteLine(P1.Name + " begins in Camp.");
 
             //Put player in starting location
             P1.Location = Camp;
+            P1.Location.PlayerVisits(P1);
 
             // Create Starting Items
-            Item Shovel = new Item(new string[] { "shovel", "spade" }, "shovel", "Used for digging");
-            Item Sword = new SwinAdventure.Item(new string[] { "sword", "blade" }, "sword", "A sharp steel blade");
-            Bag Satchel = new Bag(new string[] { "satchel", "bag" }, "satchel", "good for holding things");
-            Item Hat = new Item(new string[] { "hat" }, "hat", "Protects from sun damage");
-            Item Campfire = new Item(new string[] { "Campfire" }, "Campfire", "A warm campfire to cook food on");
-            Item Tent = new Item(new string[] { "Tent" }, "Tent", "Where I sleep");
-            Item Bucket = new Item(new string[] { "Bucket" }, "Bucket", "Can be filled with things");
+            Item Shovel = new Item(new string[] { "shovel", "spade", "digger" }, "shovel", "Used for digging");
+            Item Sword = new SwinAdventure.Item(new string[] { "sword", "blade", "metal-stabby-stick" }, "sword", "A sharp steel blade");
+            Bag Satchel = new Bag(new string[] { "satchel", "bag", "container" }, "satchel", "good for holding things");
+            Item Hat = new Item(new string[] { "hat", "cap", "sunlight shield" }, "hat", "Protects from sun damage");
+            Item Campfire = new Item(new string[] { "Campfire", "fire", "burning-logs of warmth" }, "Campfire", "A warm campfire to cook food on");
+            Item Tent = new Item(new string[] { "Tent", "tabernacle", "canvas" }, "Tent", "Where I sleep");
+            Item Bucket = new Item(new string[] { "bucket", "pail", "cask" }, "Bucket", "Can be filled with things");
+            Item Stick = new Item(new string[] { "stick", "branch", "big twig"}, "Stick", "A solid stick snapped off a tree, about the length of your forearm");
+            Item Stone = new Item(new string[] { "stone", "rock", "geode" }, "Stone", "A round rigid rock, snuggly fits in the palm of your hand");
 
             //Put Items in Bag
             P1.Inventory.Put(Shovel);
@@ -40,15 +55,18 @@ namespace SwinAdventure
             Camp.Area.Put(Tent);
             Camp.Area.Put(Bucket);
 
-            Console.WriteLine("\nPress Enter to Exit, or \n Enter a Look Command: ");
+            // Put some items in the Forrest
+            Forrest.Area.Put(Stick);
+            Forrest.Area.Put(Stone);
+
+
+            Console.WriteLine("\nPress Enter to Exit, or \n Enter a Look or Move Command: ");
             command = Console.ReadLine();
 
             while (command != "")
             {
-                string[] commands = command.Split(' ');
-                LookCommand CurrentCommand = new LookCommand(commands);
-                Console.WriteLine(CurrentCommand.Execute(P1, CurrentCommand.Cmd));
-                Console.WriteLine("\nPress Enter to Exit, or \n Enter a Look Command: ");
+                Processor.Proccess(command, P1);
+                Console.WriteLine("\nPress Enter to Exit, or \n Enter a Look or Move Command: ");
                 command = Console.ReadLine();
             }
 

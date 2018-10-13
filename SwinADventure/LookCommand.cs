@@ -23,7 +23,7 @@ namespace SwinAdventure
 
             if (text.Length == 1 && text[0].ToLower() == "look")
             {
-                return p.Location.FullDescription;
+                return p.Location.LocationDescription(p);
             }
             else if (text.Length != 3 & text.Length != 5)
             {

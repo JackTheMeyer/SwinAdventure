@@ -16,5 +16,12 @@ namespace SwinAdventure
 
         public abstract string Execute(Player p, string[] text);
 
+        public string CmdType
+        {
+            get
+            {
+                return _identifiers[0];
+            }
+        }
     }
 }
